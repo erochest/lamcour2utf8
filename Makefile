@@ -1,12 +1,20 @@
 
-# Get version from Cargo.toml
-# Tag
-# Package
-# Release with https://hub.github.com/hub-release.1.html
+VERSION := $(shell grep version Cargo.toml | sed -E 's/.*"(.*)"/\1/')
+TARGET=i686-pc-windows-gnu
 
 cross-compile:
-	cargo build --target=i686-pc-windows-gnu --release
+	cargo build --target=$(TARGET) --release
 
 package:
-	zip --junk-paths lamcour2utf8-`timestamp`.zip target/i686-pc-windows-gnu/release/lamcour2utf8.exe
-	zip --junk-paths lamcour2utf8.zip target/i686-pc-windows-gnu/release/lamcour2utf8.exe
+	zip --junk-paths dist/lamcour2utf8-$(VERSION).zip target/$(TARGET)/release/lamcour2utf8.exe
+	zip --junk-paths dist/lamcour2utf8.zip target/$(TARGET)/release/lamcour2utf8.exe
+
+version:
+	@echo $(VERSION)
+
+release: cross-compile package
+	hub release create \
+		--messenge $(VERSION) \
+		--draft --browse \
+		--attach dist/lamcour2utf8-$(VERSION).zip \
+		$(VERSION)
