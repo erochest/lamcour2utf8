@@ -4,3 +4,9 @@ version = "0.1.0"
 authors = ["Eric Rochester <erochest@gmail.com>"]
 
 [dependencies]
+clap = "2.32.0"
+failure = "0.1.2"
+
+[dev-dependencies]
+assert_cmd = "0.6.0"
+spectral = "0.6.0"
