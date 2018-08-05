@@ -4,6 +4,7 @@ extern crate failure;
 extern crate lazy_static;
 #[cfg(test)]
 extern crate spectral;
+extern crate walkdir;
 
 use std::result;
 

@@ -4,6 +4,7 @@ use std::env;
 use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::{Path, PathBuf};
+use walkdir;
 
 pub fn run() -> Result<()> {
     let args = env::args().skip(1).collect::<Vec<_>>();
@@ -11,12 +12,25 @@ pub fn run() -> Result<()> {
     if args.len() == 0 {
         process_stdin()
     } else {
-        process_file(&PathBuf::from(&args[0]))
+        args.into_iter()
+            .try_for_each(|arg| process_direntry(&PathBuf::from(&arg)))
     }
 }
 
 fn process_stdin() -> Result<()> {
     process(&mut io::stdin(), &mut io::stdout())
+}
+
+fn process_direntry(path: &Path) -> Result<()> {
+    for entry in walkdir::WalkDir::new(path) {
+        let entry = entry.map_err(|err| format_err!("Unable to walk {:?}: {:?}", path, &err))?;
+        let child = entry.path();
+        if child.is_file() {
+            process_file(child)?;
+        }
+    }
+
+    Ok(())
 }
 
 fn process_file(path: &Path) -> Result<()> {
