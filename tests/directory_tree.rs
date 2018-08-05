@@ -8,7 +8,7 @@ use assert_fs::prelude::*;
 use std::process::Command;
 
 #[test]
-fn test_processes_directory_tree() {
+fn test_recodees_directory_tree() {
     let temp = assert_fs::TempDir::new().unwrap();
 
     temp.copy_from("./tests/fixtures", &["dragonfly_"]).unwrap();

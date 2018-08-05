@@ -9,7 +9,7 @@ use std::path::Path;
 use std::process::Command;
 
 #[test]
-fn test_processes_file_list() {
+fn test_recodes_file_list() {
     let temp = assert_fs::TempDir::new().unwrap();
 
     temp.copy_from("./tests/fixtures", &["dragonfly_"]).unwrap();

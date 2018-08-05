@@ -4,7 +4,7 @@ use assert_cmd::prelude::*;
 use std::process::Command;
 
 #[test]
-fn test_processes_from_stdin() {
+fn test_recodes_from_stdin() {
     let command = Command::main_binary()
         .unwrap()
         .with_stdin()
