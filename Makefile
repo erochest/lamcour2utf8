@@ -17,7 +17,7 @@ version:
 
 release: clean build package
 	hub release create \
-		--messenge $(VERSION) \
+		--message=v$(VERSION) \
 		--draft --browse \
-		--attach dist/lamcour2utf8-$(VERSION)-win64.zip \
+		--attach=dist/lamcour2utf8-$(VERSION)-win64.zip \
 		$(VERSION)
