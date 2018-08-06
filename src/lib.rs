@@ -17,12 +17,10 @@ pub type Result<R> = result::Result<R, failure::Error>;
 pub mod cli;
 pub mod lamcour;
 
-// TODO: test
 pub fn recode_stdin() -> Result<()> {
     recode(&mut io::stdin(), &mut io::stdout())
 }
 
-// TODO: test
 pub fn recode_direntry(path: &Path) -> Result<()> {
     for entry in walkdir::WalkDir::new(path) {
         let entry = entry.map_err(|err| format_err!("Unable to walk {:?}: {:?}", path, &err))?;
@@ -35,7 +33,6 @@ pub fn recode_direntry(path: &Path) -> Result<()> {
     Ok(())
 }
 
-// TODO: test
 pub fn recode_file(path: &Path) -> Result<()> {
     let mut input =
         File::open(path).map_err(|err| format_err!("Unable to open file {:?}: {:?}", path, &err))?;
@@ -47,7 +44,6 @@ pub fn recode_file(path: &Path) -> Result<()> {
     recode(&mut input, &mut output)
 }
 
-// TODO: test
 pub fn recode<R: Read, W: Write>(input: &mut R, output: &mut W) -> Result<()> {
     let mut buffer = Vec::new();
     input
@@ -60,3 +56,6 @@ pub fn recode<R: Read, W: Write>(input: &mut R, output: &mut W) -> Result<()> {
         .write_all(contents.as_bytes())
         .map_err(|err| format_err!("Error writing to STDOUT: {:?}", &err))
 }
+
+#[cfg(test)]
+mod test;
